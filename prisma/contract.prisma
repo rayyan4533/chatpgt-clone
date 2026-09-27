@@ -1,0 +1,63 @@
+// use prisma-8
+
+model User {
+  id            Int                 @id @default(autoincrement())
+  email         String              @unique
+  clerkId       String?             @unique
+  name          String?
+  createdAt     TimestamptzString   @default(now())
+  updatedAt     temporal.updatedAtString()
+
+  conversations Conversation[]
+
+  @@map("user")
+}
+
+model Conversation {
+  id            String              @id @default(uuid())
+  userId        Int
+  title         String              @default("New Chat")
+  model         String?             // e.g. openai/gpt-4.1 — per-thread model override
+  systemPrompt  String?
+  isPinned      Boolean             @default(false)
+  isArchived    Boolean             @default(false)
+  createdAt     TimestamptzString   @default(now())
+  updatedAt     temporal.updatedAtString()
+  lastMessageAt TimestamptzString   @default(now())
+
+  user          User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages      Message[]
+
+  @@index([userId, lastMessageAt])
+  @@index([userId, isPinned, lastMessageAt])
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+  TOOL
+}
+
+enum MessageStatus {
+  PENDING // created before streaming finishes
+  COMPLETE
+  ERROR
+}
+
+model Message {
+  id             String              @id @default(uuid())
+  conversationId String
+  role           MessageRole
+  status         MessageStatus       @default(COMPLETE)
+  content        String
+  parts          Json?
+  metadata       Json?
+
+  conversation   Conversation        @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  createdAt      TimestamptzString   @default(now())
+  updatedAt      temporal.updatedAtString()
+
+  @@index([conversationId, createdAt])
+}
