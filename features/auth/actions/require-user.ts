@@ -8,7 +8,7 @@ export async function requireUser() {
 
 
     const { userId } = await auth.protect()
-    const user = db.orm.public.User
+    const user = await db.orm.public.User
         .where({
             clerkId: userId
         }).first()
