@@ -63,7 +63,7 @@ export function useUpdateConversation() {
                 queryKey: queryKeys.conversations.all,
             });
             void queryClient.invalidateQueries({
-                queryKey: queryKeys.conversations.detail(conversation.id),
+                queryKey: queryKeys.conversations.detail(conversation!.id),
             });
         },
         onError: (error: Error) => {

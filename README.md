@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ChatGPT Clone
 
-## Getting Started
+A fast, full-stack ChatGPT clone built with Next.js 16, Vercel AI SDK, Prisma ORM, and Clerk.
 
-First, run the development server:
+---
+
+## ✨ Features
+
+- **⚡ Real-Time Streaming** — Fast, low-latency AI responses powered by Vercel AI SDK and OpenAI (`gpt-4o-mini`).
+- **📝 Rich Markdown** — Full syntax highlighting, LaTeX math, and Mermaid diagrams via Streamdown.
+- **💬 Chat Management** — Multi-thread conversations, message history, pinning, and archiving.
+- **🔐 Authentication** — User auth and session handling powered by Clerk.
+- **🌓 Dark & Light Mode** — Seamless theme toggle with Tailwind CSS v4 and `next-themes`.
+- **🗄️ PostgreSQL Persistence** — Robust database models and schema management with Prisma ORM.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router) + [React 19](https://react.dev/)
+- **AI Integration**: [Vercel AI SDK](https://sdk.vercel.ai/) (`ai`, `@ai-sdk/openai`, `@ai-sdk/react`)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Database**: PostgreSQL with [Prisma ORM](https://www.prisma.io/)
+- **Auth**: [Clerk](https://clerk.com/)
+- **State Management**: [TanStack Query](https://tanstack.com/query)
+
+---
+
+## 🚀 Quick Start
+
+### 1. Clone & Install
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/chatpgt-clone.git
+cd chatpgt-clone
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Configure Environment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copy `.env.example` to `.env` and fill in your credentials:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cp .env.example .env
+```
 
-## Learn More
+```env
+# Database (PostgreSQL >= 15)
+DATABASE_URL="postgresql://user:password@localhost:5432/mydb"
 
-To learn more about Next.js, take a look at the following resources:
+# OpenAI
+OPENAI_API_KEY="sk-..."
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Clerk Auth
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_..."
+CLERK_SECRET_KEY="sk_..."
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 3. Setup Database
 
-## Deploy on Vercel
+Generate and sync the Prisma schema:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm contract:emit
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 4. Run the App
+
+```bash
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## 📜 Available Scripts
+
+| Command | Description |
+|---|---|
+| `pnpm dev` | Starts Next.js development server |
+| `pnpm build` | Creates optimized production build |
+| `pnpm start` | Starts production server |
+| `pnpm lint` | Runs ESLint checks |
+| `pnpm contract:emit` | Emits Prisma contract & schema types |
+
+---
+
+## 📄 License
+
+MIT
